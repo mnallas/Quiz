@@ -32,18 +32,24 @@ $(document).ready(function () {
 
   $(document).on("click", "#start", function (e) {
     e.preventDefault();
-    $("#question").text(questionsList[arrayQuestion].question);
-    for (var i = 0; i < questionsList[arrayQuestion].choices.length; i++) {
-      $("#choices").append(`
-      <div data-id = ${i} id="choice">${questionsList[arrayQuestion].choices[i]}</div>`);
+    for (var i = 0; i < questionsList.length; i++) {
+      $("#question").text(questionsList[i].question);
+      for (var i = 0; i < questionsList[i].choices.length; i++) {
+        $("#choices").append(`
+        <div data-id = ${i} id="choice">${questionsList[arrayQuestion].choices[i]}</div>`);
+      }
+      chooser(i);
     }
   });
 
-  $(document).on("click", "#choice", function () {
-    var chosen = $(this).attr("data-id");
-    console.log(questionsList[arrayQuestion].answer);
-    arrayQuestion++;
-  });
+  function chooser(num) {
+    $(document).on("click", "#choice", function () {
+      var chosen = $(this).attr("data-id");
+      console.log(chosen);
+    });
+  }
+
+  chooser(1);
 
   // function renderQuestion(arr) {
   //   for (var i =0; i<arr.length;i++) {
