@@ -58,13 +58,26 @@ $(document).ready(function () {
 
   //function needs to stop, might need a for loop
   function renderQuestion(num) {
-    $("#container").append(
-      `<div id="question">${questionsList[num].question}</div>`
-    );
-    for (var i = 0; i < questionsList[i].choices.length; i++) {
+    if (num === questionsList.length) {
       $("#container").append(`
-  
-            <div data-id = ${i} id="choice">${questionsList[num].choices[i]}</div>`);
+      <div>All done! Your score is ${score}</div>
+      <form>
+      <input
+        id="initials"
+        placeholder="Please enter your initials"
+        type="text"
+      />
+      <input id="btnSubmit" type="submit" value="Submit" />
+    </form>`);
+    } else {
+      $("#container").append(
+        `<div id="question">${questionsList[num].question}</div>`
+      );
+      for (var i = 0; i < questionsList[i].choices.length; i++) {
+        $("#container").append(`
+    
+              <div data-id = ${i} id="choice">${questionsList[num].choices[i]}</div>`);
+      }
     }
   }
 
@@ -76,12 +89,3 @@ $(document).ready(function () {
     }, 3000);
   }
 });
-
-// for (var i = 0; i < arr.length; i++) {
-//   $("#question").text(questionsList[i].question);
-//   for (var i = 0; i < questionsList[i].choices.length; i++) {
-//     $("#choices").append(`
-//     <div data-id = ${i} id="choice">${questionsList[arrayQuestion].choices[i]}</div>`);
-//   }
-//   chooser(i);
-// }
