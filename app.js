@@ -29,10 +29,12 @@ $(document).ready(function () {
 
   var score = 0;
   var arrayQuestion = 0;
+  var timeSet = 5;
 
   $(document).on("click", "#start", function () {
-    // e.preventDefault();
+    setTime();
     $("#start").text("");
+
     renderQuestion(arrayQuestion);
     chooser(arrayQuestion);
   });
@@ -56,7 +58,6 @@ $(document).ready(function () {
     });
   }
 
-  //function needs to stop, might need a for loop
   function renderQuestion(num) {
     if (num === questionsList.length) {
       $("#container").append(`
@@ -87,5 +88,27 @@ $(document).ready(function () {
     window.setTimeout(function () {
       $("#alert").hide();
     }, 3000);
+  }
+
+  function setTime() {
+    var timerInterval = setInterval(function () {
+      timeSet--;
+      $("#timer").text("Time left: " + timeSet);
+
+      if (timeSet === 0) {
+        clearInterval(timerInterval);
+        $("#container").empty();
+        $("#container").append(`
+        <div>All done! Your score is ${score}</div>
+        <form>
+        <input
+          id="initials"
+          placeholder="Please enter your initials"
+          type="text"
+        />
+        <input id="btnSubmit" type="submit" value="Submit" />
+      </form>`);
+      }
+    }, 1000);
   }
 });
