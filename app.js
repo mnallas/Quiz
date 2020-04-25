@@ -21,7 +21,7 @@ $(document).ready(function () {
       answer: "Because",
     },
     {
-      question: "Where are you",
+      question: "Where are you?",
       choices: ["a", "b", "c", "Here"],
       answer: "Here",
     },
@@ -30,34 +30,58 @@ $(document).ready(function () {
   var score = 0;
   var arrayQuestion = 0;
 
-  $(document).on("click", "#start", function (e) {
-    e.preventDefault();
-    for (var i = 0; i < questionsList.length; i++) {
-      $("#question").text(questionsList[i].question);
-      for (var i = 0; i < questionsList[i].choices.length; i++) {
-        $("#choices").append(`
-        <div data-id = ${i} id="choice">${questionsList[arrayQuestion].choices[i]}</div>`);
-      }
-      chooser(i);
-    }
+  $(document).on("click", "#start", function () {
+    // e.preventDefault();
+    $("#start").text("");
+    renderQuestion(arrayQuestion);
+    chooser(arrayQuestion);
   });
 
   function chooser(num) {
     $(document).on("click", "#choice", function () {
       var chosen = $(this).attr("data-id");
+
       if (questionsList[num].choices[chosen] === questionsList[num].answer) {
         score++;
-        console.log(score);
+        showAlert("Correct!");
+        $("#container").empty();
+        num++;
+        renderQuestion(num);
+      } else {
+        showAlert("Wrong!");
+        $("#container").empty();
+        num++;
+        renderQuestion(num);
       }
     });
   }
 
-  chooser(1);
+  //function needs to stop, might need a for loop
+  function renderQuestion(num) {
+    $("#container").append(
+      `<div id="question">${questionsList[num].question}</div>`
+    );
+    for (var i = 0; i < questionsList[i].choices.length; i++) {
+      $("#container").append(`
+  
+            <div data-id = ${i} id="choice">${questionsList[num].choices[i]}</div>`);
+    }
+  }
 
-  // function renderQuestion(arr) {
-  //   for (var i =0; i<arr.length;i++) {
-  //     $("#question").text(arr[i].question);
-  //   }
-  //   $("#choices").text(arr[arrayQuestion].choices);
-  // }
+  function showAlert(str) {
+    $("#alert").show();
+    $("#alert").text(str);
+    window.setTimeout(function () {
+      $("#alert").hide();
+    }, 3000);
+  }
 });
+
+// for (var i = 0; i < arr.length; i++) {
+//   $("#question").text(questionsList[i].question);
+//   for (var i = 0; i < questionsList[i].choices.length; i++) {
+//     $("#choices").append(`
+//     <div data-id = ${i} id="choice">${questionsList[arrayQuestion].choices[i]}</div>`);
+//   }
+//   chooser(i);
+// }
