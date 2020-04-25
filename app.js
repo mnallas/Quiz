@@ -8,7 +8,7 @@ $(document).ready(function () {
     {
       question: "What are you?",
       choices: ["a", "b", "c", "Nallas"],
-      answer: "Nallas",
+      answer: "c",
     },
     {
       question: "When are you?",
@@ -45,7 +45,10 @@ $(document).ready(function () {
   function chooser(num) {
     $(document).on("click", "#choice", function () {
       var chosen = $(this).attr("data-id");
-      console.log(chosen);
+      if (questionsList[num].choices[chosen] === questionsList[num].answer) {
+        score++;
+        console.log(score);
+      }
     });
   }
 
