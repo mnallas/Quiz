@@ -27,6 +27,7 @@ $(document).ready(function () {
     },
   ];
 
+  var scoreList = [];
   var score = 0;
   var arrayQuestion = 0;
   var timeSet = 60;
@@ -75,6 +76,12 @@ $(document).ready(function () {
       <input id="btnSubmit" type="submit" value="Submit" />
     </form>`);
       $("#timer").remove();
+      $(document).on("click", "#btnSubmit", function () {
+        scoreList.push(getIS($("#initials").val(), score));
+        var myhScoreJ = JSON.stringify(scoreList);
+        localStorage.setItem("scoreList", myhScoreJ);
+        console.log(scoreList);
+      });
     } else {
       $("#container").append(
         `<div id="question">${questionsList[num].question}</div>`
@@ -118,36 +125,29 @@ $(document).ready(function () {
     }, 1000);
   }
 
-  $(document).on("click", "#btnSubmit", function (e) {
-    e.preventDefault();
-    var scoreList = [];
-    var hScore = [
-      {
-        init: $("#initials").val(),
-        scor: score,
-      },
-    ];
-    var myhScoreJ = JSON.stringify(hScore);
-    window.localStorage.setItem("scoreList", myhScoreJ);
-    scoreList.push(hScore);
-    console.log(scoreList);
-  });
-
-  function storeInitials() {
-    var scoreList = JSON.parse(window.localStorage.getItem("scoreList")) || [];
-    scoreList.sort(function (a, b) {
-      return a.score - b.score;
-    });
-    scoreList.forEach(function (score) {
-      var listItem = document.createElement("li");
-      listItem.textContent = score.initials + " " + score.score;
-      var showScore = document.getElementById("score");
-      showScore.appendChild(listItem);
-    });
-  }
-
   function clearHighScores() {
     localStorage.removeItem("scoreList");
     window.location.reload();
+  }
+
+  function displayInitials() {
+    var scoreList = JSON.parse(window.localStorage.getItem("scoreList"));
+    // scoreList.sort(function (a, b) {
+    //   return a.score - b.score;
+    // });
+    for (let i = 0; i < scoreList.length; i++) {
+      $("#scoreList").append(
+        `<div>scoreList[${i}].init + " " + scoreList[${i}].score</div>`
+      );
+    }
+  }
+
+  function getIS(str, num) {
+    return [
+      {
+        init: str,
+        num,
+      },
+    ];
   }
 });

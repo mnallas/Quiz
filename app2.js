@@ -4,15 +4,12 @@ function storeInitials() {
     return a.score - b.score;
   });
   scoreList.forEach(function (score) {
-    var listItem = document.createElement("li");
-    listItem.textContent = score.initials + " " + score.score;
-    var showScore = document.getElementById("score");
-    showScore.appendChild(listItem);
+    $("#scoreList").append(`<p>score.initials + " " + score.score</p>`);
   });
 }
 
 function clearHighScores() {
-  window.localStorage.removeItem("score");
+  window.localStorage.removeItem("scoreList");
   windows.location.reload();
 }
 
