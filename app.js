@@ -58,6 +58,10 @@ $(document).ready(function () {
     });
   }
 
+  $(document).on("click", "#reset", function () {
+    clearHighScores();
+  });
+
   function renderQuestion(num) {
     if (num === questionsList.length) {
       $("#container").append(`
@@ -70,6 +74,7 @@ $(document).ready(function () {
       />
       <input id="btnSubmit" type="submit" value="Submit" />
     </form>`);
+      $("#timer").remove();
     } else {
       $("#container").append(
         `<div id="question">${questionsList[num].question}</div>`
@@ -97,6 +102,7 @@ $(document).ready(function () {
 
       if (timeSet === 0) {
         clearInterval(timerInterval);
+        $("#timer").remove();
         $("#container").empty();
         $("#container").append(`
         <div>All done! Your score is ${score}</div>
@@ -114,6 +120,7 @@ $(document).ready(function () {
 
   $(document).on("click", "#btnSubmit", function (e) {
     e.preventDefault();
+    var scoreList = [];
     var hScore = [
       {
         init: $("#initials").val(),
@@ -121,7 +128,26 @@ $(document).ready(function () {
       },
     ];
     var myhScoreJ = JSON.stringify(hScore);
-
     window.localStorage.setItem("scoreList", myhScoreJ);
+    scoreList.push(hScore);
+    console.log(scoreList);
   });
+
+  function storeInitials() {
+    var scoreList = JSON.parse(window.localStorage.getItem("scoreList")) || [];
+    scoreList.sort(function (a, b) {
+      return a.score - b.score;
+    });
+    scoreList.forEach(function (score) {
+      var listItem = document.createElement("li");
+      listItem.textContent = score.initials + " " + score.score;
+      var showScore = document.getElementById("score");
+      showScore.appendChild(listItem);
+    });
+  }
+
+  function clearHighScores() {
+    localStorage.removeItem("scoreList");
+    window.location.reload();
+  }
 });
