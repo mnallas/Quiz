@@ -29,7 +29,7 @@ $(document).ready(function () {
 
   var score = 0;
   var arrayQuestion = 0;
-  var timeSet = 5;
+  var timeSet = 60;
 
   $(document).on("click", "#start", function () {
     setTime();
@@ -111,4 +111,17 @@ $(document).ready(function () {
       }
     }, 1000);
   }
+
+  $(document).on("click", "#btnSubmit", function (e) {
+    e.preventDefault();
+    var hScore = [
+      {
+        init: $("#initials").val(),
+        scor: score,
+      },
+    ];
+    var myhScoreJ = JSON.stringify(hScore);
+
+    window.localStorage.setItem("scoreList", myhScoreJ);
+  });
 });
